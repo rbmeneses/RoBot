@@ -11,6 +11,7 @@ O projeto será estruturado da seguinte maneira:
 1. Instale o Flask
 Primeiro, instale o Flask:
 pip install flask
+Instale o requests
 pip install requests
 
 Executar o Projeto
