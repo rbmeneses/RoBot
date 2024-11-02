@@ -2,8 +2,7 @@
 ChatBot com inteligencia artificial treinada localmente
 Estrutura do Projeto
 O projeto será estruturado da seguinte maneira:
-graphql
-chatbot/
+
 ├── app.py              # Backend Flask para lidar com as requisições
 ├── templates/
 │   └── index.html      # Frontend HTML e JavaScript
@@ -11,7 +10,6 @@ chatbot/
     └── style.css       # Estilos CSS para o frontend (opcional)
 1. Instale o Flask
 Primeiro, instale o Flask:
-bash
 pip install flask
 pip install requests
 
