@@ -3,18 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoBot 1.3 com IA</title>
+    <title>Nave</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div class="chat-container">
-        <h1>RoBot 1.3 com IA</h1>
+        <h1>Nave</h1>
         <div class="chat-box" id="chat-box"></div>
         <input type="text" id="user-input" placeholder="Digite sua mensagem...">
         <button onclick="sendMessage()">Enviar</button>
     </div>
 
     <script>
+        let typingAnimation;
+
+        function showTypingAnimation() {
+            const chatBox = document.getElementById("chat-box");
+            const typingElement = document.createElement("div");
+            typingElement.id = "typing-animation";
+            typingElement.className = "bot-message";
+            typingElement.innerText = "Chatbot está digitando";
+
+            // Animação de pontinhos piscando
+            typingAnimation = setInterval(() => {
+                typingElement.innerText = typingElement.innerText.endsWith("...")
+                    ? "Chatbot está digitando"
+                    : typingElement.innerText + ".";
+            }, 500);
+
+            chatBox.appendChild(typingElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function hideTypingAnimation() {
+            clearInterval(typingAnimation);
+            const typingElement = document.getElementById("typing-animation");
+            if (typingElement) typingElement.remove();
+        }
+
         async function sendMessage() {
             const userInput = document.getElementById("user-input");
             const message = userInput.value;
@@ -27,6 +53,9 @@
             // Limpar o campo de entrada
             userInput.value = "";
 
+            // Exibir animação de "digitando..."
+            showTypingAnimation();
+
             // Enviar mensagem para o backend
             const response = await fetch("/api/chat", {
                 method: "POST",
@@ -34,6 +63,9 @@
                 body: JSON.stringify({ message: message })
             });
             const data = await response.json();
+
+            // Remover a animação de "digitando..."
+            hideTypingAnimation();
 
             // Exibir resposta do chatbot
             chatBox.innerHTML += `<div class="bot-message">Chatbot: ${data.response}</div>`;
