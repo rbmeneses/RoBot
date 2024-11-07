@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
 
-# URL do backend e token de autorização fornecidos
+# URL do backend e token
 ANYTHING_LLM_URL = "http://127.0.0.1:3001/api/v1/workspace/robot/chat"
 AUTH_TOKEN = "Y0S7Z8X-5P84THA-G7EQBD1-ZTFN6CT"  # Token de autenticação fornecido
 
