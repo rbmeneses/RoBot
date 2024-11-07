@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nave</title>
+    <title>Cleitin</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div class="chat-container">
-        <h1>Nave</h1>
+        <h1>Cleitin</h1>
         <div class="chat-box" id="chat-box"></div>
         <input type="text" id="user-input" placeholder="Digite sua mensagem...">
         <button onclick="sendMessage()">Enviar</button>
@@ -27,7 +27,7 @@
             // Animação de pontinhos piscando
             typingAnimation = setInterval(() => {
                 typingElement.innerText = typingElement.innerText.endsWith("...")
-                    ? "Chatbot está digitando"
+                    ? "Cleitin está digitando"
                     : typingElement.innerText + ".";
             }, 500);
 
@@ -68,7 +68,7 @@
             hideTypingAnimation();
 
             // Exibir resposta do chatbot
-            chatBox.innerHTML += `<div class="bot-message">Chatbot: ${data.response}</div>`;
+            chatBox.innerHTML += `<div class="bot-message">Cleitin: ${data.response}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;  // Scroll automático para a última mensagem
         }
     </script>
