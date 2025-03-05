@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        #chat-box { height: 400px; overflow-y: scroll; background: #fff; padding: 15px; border-radius: 10px; }
+        .loading { display: none; text-align: center; }
+        .loading img { width: 50px; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Chat AI</h2>
+        <div id="chat-box" class="mb-3"></div>
+
+        <div class="loading">
+            <img src="https://i.gifer.com/ZZ5H.gif" alt="Carregando...">
+        </div>
+
+        <input type="text" id="user-input" class="form-control mb-2" placeholder="Digite sua mensagem...">
+        <button class="btn btn-primary w-100" onclick="sendMessage()">Enviar</button>
+
+        <hr>
+
+        <h4>Enviar imagem para análise</h4>
+        <input type="file" id="image-input" class="form-control mb-2">
+        <button class="btn btn-success w-100" onclick="uploadImage()">Enviar Imagem</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            let userInput = document.getElementById("user-input").value;
+            let chatBox = document.getElementById("chat-box");
+
+            if (!userInput) return;
+            
+            chatBox.innerHTML += `<div><strong>Você:</strong> ${userInput}</div>`;
+            document.getElementById("user-input").value = "";
+
+            document.querySelector(".loading").style.display = "block"; // Exibir loading
+
+            fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_input: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector(".loading").style.display = "none"; // Esconder loading
+                chatBox.innerHTML += `<div><strong>AI:</strong> ${data.response}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+        }
+
+        function uploadImage() {
+    let imageInput = document.getElementById("image-input").files[0];
+
+    if (!imageInput) {
+        alert("Escolha uma imagem para enviar!");
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append("image", imageInput);
+
+    fetch("/upload_image", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        if (data.analysis) {
+            alert("Análise da imagem: " + data.analysis);
+        }
+    });
+}
+    </script>
+</body>
+</html>
